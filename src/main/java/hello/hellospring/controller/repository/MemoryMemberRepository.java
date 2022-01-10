@@ -1,12 +1,14 @@
 package hello.hellospring.controller.repository;
 
 import hello.hellospring.domain.Member;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
+//@Repository
 public class MemoryMemberRepository implements MemberRepository{
 
-    private static Map<Long,Member> store = new HashMap<>();
+    private static Map<Long,Member> store = new HashMap<>();    //인스턴스가 아닌 클래스레벨에 붙는거라
     private static long sequence = 0L;
     //공유되는 경우 concurrent 관련 사항을 유의해야함. (동시성 문제) 예시라서 이렇게..
 
