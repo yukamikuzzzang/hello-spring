@@ -1,0 +1,297 @@
+//View 환경 설정
+에러페이지만 떴었던 지난시간.
+localhost:8080 ...> whiatable Error
+
+Welcome Page를 만들어보자.
+
+resources/static/index.html을 만들면 알아서 welcome page를 만들어줌.
+
+src > main > static(정적 페이지)
+index.html 생성.
+
+생성 이후 서버를 재기동 해보자.
+웰컴 페이지 생성 완료!
+
+스프링 부트는 (2003년의 release)
+스프링 생태계를 감싸서 편하게 사용할 수 있도록 도와줌.
+전반의 생태계를 다 제공. 따라서 필요한 걸 찾는 능력이 중요.
+
+spring.io에 접속.
+project ...> spring boot > 2.3.1 버전 reference doc을 들어감
+
+index.html 검색
+7.1.6 Welcome Page
+index.html을 static에서 찾고.. 없으면 index templates에서 찾는다는 내용..
+
+Spring.io의 메뉴얼에서 검색하는 능력을 키우자..!
+
+thymeleaf 3.대(version)에서 성능 개선을 이뤄 괜찮아짐.
+튜토리얼도 살펴봐도 좋아요.
+Template 엔진에서 제공하는 4가지
+(auto-configuration)
+
+-Freemarker
+-Groovy
+-Thymeleaf
+-Mustache
+
+동작하고 프로그래밍 되는 화면을 만들어보자.
+웹 (app)프로그램에서 진입하는 첫번째 지점 : Controller
+
+hello.hellospring.controller 생성
+HelloController.class 생성
+모델을 만듬.
+
+resource > templataes > hello.html 생성
+html태그에 xmlns:th="http://~ "
+thymeleaf를 사용가능하게 만듬
+p 태그에 th:text를 넣어 원하는 데이터가 출력되게 만듬.
+(MVC랑 관련이 있는 듯?)
+
+그림과 함께 하는 쉬운 예
+
+localhost:8080/hello ..> 내장 톰캣 서버 ...> helloController
+					@getMapping
+					(겟 방식.)
+					return:hello
+					model(data:hello!!)
+res > templates > folder 밑 hello를 찾음.
+
+				      viewResolver
+					templates/hello.html
+
+컨트롤러에서 리턴 값으로 문자를 반환하면 뷰 리졸버가 화면을 찾아 처리. resources:templates/ {ViewName}..
+
+스프링 부트 템플릿엔진 기본 viewName 매핑
+resource:templates/ + {ViewName} + ".html"
+서버를 꺼주고..
+hello-spring 폴더에 들어가자.
+윈도우는 gradlew.bat
+맥은 gradlew
+
+./gradlew build
+하면 알아서 빌드를 함.
+
+cd /libs로 들어가자.
+18mb까지 파일이(.jar)가 있는 것이 확인.
+해당 jar를 파일을 실행시키면..
+
+java -jar ~.jar
+...> 빌드 후 실행가능.
+ls - arlthm
+
+과거엔 톰캣을 설치하고 특정 폴더 안에 war를 넣고..
+지금은 jar하나 실행해서 집어넣으면 끝.
+
+이게 잘 안된다면..?
+gradlew
+clean
+
+./gradlew clean build하면 기존에 것을 지우고 다시 설치
+
+[정리]
+start.io 프로젝트 생성
+라이브러리들
+welcome page
+templates engine
+build 그리고 실행.
+
+참고: spring boot devtools 추가 시 html 파일만 컴파일 해주면 서버 재시작 없이 View 파일 변경 가능.
+(gradle파일에 반영 후 build > recomplile '~.html')
+
+https://bit.ly/3F8eoxz
+- 컨트롤러에서 리턴 값 문자 반환 시 뷰 리졸버가 화면을 찾아 처리
+- 스프링 부트 템플릿엔진 기본 viewName 매핑
+- resources:templates/ + {ViewName} + '.html'
+
+context.xml에서 설정하지 않아도 됨.
+(View resolver에 대한 설정이 필요없다.)
+			
+https://bit.ly/3npA16T
+GetMapping이 화면을 찾아주는 원리
+
+<a href="/hello></a>
+이 정보가 URL인 /hello를 통해 @GetMapping("hello") 인식 된다.
+
++서버를 키지 않았을 때
+hello.html을 클릭해보면 <p>어서오세요. 손님</p>이 남아있는 걸 알 수 있다. thymeleaf는 th이 있는 부분으로 해당 태그를 치환시켜버리기 때문에 렌더링을 해도 하지 않아도 화면을 제공하고 내용을 남길 수 있다는 점..!
+
+//빌드하고 실행하기
+실제 빌드해서 파일을 만드는 방법..
+				
+콘솔
+1. ./gradlew(.bat) build
+2. cd build/libs
+3. java -jar {.jar파일이름}.jar
+4. 실행확인
+
+윈도우 사용자용 팁.
+콘솔 > cmd
+./gradlew > gardlew.bat
+gradlew build
+ls > dir
+
+git bash 터미널 이용하기
+intelliJ의 git bash 이용하기
+
+[!!] JAVA_HOME은 bin폴더를 포함하지 않아야한다..
+
+===
+스프링 웹 개발 기초
+===
+
+웹을 만든다?
+- 정적 페이지
+서버에서 그냥 파일을 그대로 웹브라우저에 출력: 정적 컨텐츠
+- MVC와 템플릿 엔진
+과거의 JSP, PHP(템플릿 엔진) html을 프로그래밍 해서 html을 동적으로 바꾸어 주는 것들. 이걸 위해 Controller, Template 엔진, Viewer : MVC 패턴..!
+
+정적 컨텐츠: 파일을 그대로 웹 브라우저에 전달
+vs MVC, 템플릿 엔진: 서버에서 변형에서 바꾸어 전달
+
+- API: 안드로이드나 아이폰이라면 요즘은 json이라는 데이터 포맷으로 전달하는 방식(xml도 예전에야 썼다고)
+
+vue.js, react를 쓸 때도 api로 데이터만 주면 화면을 알아서 구현,
+서버에서도 api를 주로 사용(데이터를 주고 받음)
+
+//정적 컨텐츠
+스프링 부트는 정적 컨텐츠를 제공
+7.1.5 static content
+/static 경로에서 정적 컨텐츠를 제공
+
+resources/static/ ...
+(html이나 리소스는 복붙할 예정)
+해당 파일의 url은 .html 파일의 이름을 그대로 입력해주면 됨.
+프로그램이라 부르기엔 힘듬. 그대로 반환됨.
+
+원리를 설명하는 그림
+Spring MVC를 깊이 들어가면 되게 뭐가 많지만.. 디테일 보단 크게 어떻게 돌아가는지를 그리는 것이 우선.
+
+웹 브라우저 : localhost:8080/hello-static.html
+
+...> 내장 톰캣 서버 ....> 스프링 컨테이너
+			hello-static이라는 컨트롤러 X
+		....> resources: static/hello-static.html
+찾으면 그대로 반환..!
+{컨트롤러를 먼저 찾고 거기에 없으면 resources 찾아보고 반환}
+
+//MVC와 템플릿 엔진
+Model
+View
+Controller
+
+과거엔 Controller와 View가 분리되지 않고 View에서 Controller도 같이 했다. Model1 방식
+
+View: 관심사를 분리해야한다. '역할과 책임'
+View는 화면을 그리는 데에 모든 것을 집중해야한다.
+Controller는 내부적인 것을 처리하는 데에 집중해야한다.
+
+(14년전.. 처음 취업을 할 때에 회사 내부에서 진행하는 프로젝트에서 꼭 들어가면 유지보수를 항상 한 사람이 하는 곳. (admin) 소스를 살펴보니.. jsp파일 하나가 수천 라인이 넘어가는 기염.. View에서 모든 것을 다 처리하는 시스템. (내가 저거 유지보수하면 어떡하지..))
+
+요즘은 Controller와 View를 쪼개서 관리한다.
+뒷단에서 처리하고 model에서 화면에 필요한 것을 담아 View로 보내주는 과정.
+
+thymeleaf의 장점.
+서버가 동작하지 않아도 웹의 껍데기를 확인할 수 있음.
+서버가 동작하는 경우 해당 값을 치환해버림.
+
+에러가 나는 이유..?
+localhost:8080/hello-mvc
+
+에러가 뜨는데.. Required String Parameter 'name' is not present
+파라미터 name이 없다..?
+@RequestParam("name")에 가져다 대고 Ctrl + P (맥은 Command + P)
+required의 기본값은 true 값을 반드시 넣어야 한다.
+
+URL에서 get 방식이용
+
+localhost:8080/hello-mvc?name= {파라미터 값}
+파라미터를 받아서 넘김.
+
+${name} 모델이 name인 걸 찾아서 출력.
+자료: MVC, 템플릿 엔진 이미지를 보자.
+
+Controller에서 오는 값(get)과 Mapping 하는 컨트롤러에서 Model을 만든 후 key : value를 만듬. 특정 단어를 리턴함. 리턴에 해당하는 .html을 찾는다.
+<동적>
+
+viewResolver 화면 관련 해결자
+<자세한 내용은 뒤에서..>
+정적일 땐 그냥 주지만
+동적일 땐 thymeleaf에서 html로 <<변환>>하여 보내줌.
+Controller에 이에 해당하는 게 없다면 resource를 찾아보니까..
+
+//API
+뷰를 찾아서 렌더링해서 html을 넘기는 방법 vs
+API로 데이터를 바로 보내는 방법
+
+html
+vs
+데이터
+
+@ResponseBody ?
+http의 존재하는 헤더부와 바디부
+http의 응답 바디부의 직접 넣어주겠다는 뜻.
+
+이전과의 차이?
+뷰가 없이 문자가 그대로 내려감..!
+소스보기에서 보면.. html 태그 없이 문자가 그대로 내려감..!
+
+View라는 탬플릿에서 조작하는 방식이 아닌..
+데이터 그대로를 보내는 방식
+
+(느낌상 객체 만들기 귀찮으면 Ctrl+Shift+Enter)
+json: 키와 value로 이어진 구조
+키: value
+
+Key: name
+Value: String(입력값)
+
+과거엔 XML 방식을 많이 씀.
+XML 방식.. 무겁고 태그도 중복..
+
+JSON은 데이터가 바로 나옴.
+최근엔 거의 JSON 방식을 많이 씀.
+Spring의 기본? 객체를 반환할 때에 json으로 반환하는 것이 default로 설정되어 있음. (in 2020) XML연동할 때 확인해보면 될 듯.
+
+getter() setter()
+(Ctrl+Ins. : 자바빈 규약)
+변수가 private이라 바로 쓸 수 없기 때문에 메서드를 통해서 접근하는 방법: 자바빈 규약, 프로퍼티 접근방식 ...
+
+@ResponseBody를 사용하면..
+
+localhost:8080/hello-api ....> helloController @ResponseBody(?)
+			저런 거 없으면 나한테 맞는 템플릿을 던졌는데.. 문자라면 그대로 http의 응답에 넣어서 던졌는데.. 객체를 주면.. 어떻게 해야하지.. 객체를 주게되면 json방식으로 데이터를 만들어서 http 응답에 반환하겠다. (디테일한 부분은 따로 있음)
+			return hello(name:spring)
+			HttpMessageConverter
+			StringConverter(단순문자)
+		<....	JsonConverter(json으로 변형)
+			요청한 곳으로 보냄
+
+@ResponseBody 사용
+- HTTP의 BODY에 문자 내용을 직접 반환
+- viewResolver 대신 HttpMessageConveter가 동작
+- [기본문자] StringHttpMessageConverter
+- [기본객체] MappingJackson2HttpMessageConverter
+(json으로 바꿔주는 라이브러리: jackson(version2), gson(by google) / 기본은 jackson)
+- byte 처리 등등 기타 여러 HttpMessageConverter 기본으로 등록
+
+실무에서 거의 그대로 씀. MVC할 때 알려드릴께요. 실무에서 거의 손대지 않는 부분. http spec에 보면 accept라는 헤더에서 꼭 이런 형태로 받을꺼야.. 라고 할 때 이에 맞춰 줌.
+
+참고: 클라이언트 HTTP Accept 헤더와 서버의 컨트롤러 반환 타입 정보 툴을 조합해 HttpMessageConverter가 선택됨. ..
+
+1. 정적 컨텐츠: 파일을 그대로 내려준다. 
+2. MVC, TemplateEngine
+모델,뷰,컨트롤러로 분리. 뷰를 템플릿 엔진한 걸로 렌더링하여 렌더링된 html을 클라이언트에 전달
+3. API는 객체를 반환하는 것. HttpMessageConverter를 통해 json으로 바꾸어 반환. (뷰 없이.) (with @ResponseBody)
+
++
+https://www.inflearn.com/questions/183833
+getter, setter를 활용하는 이유
+https://m.blog.naver.com/rbamtori/220760147541
+자바빈 프로퍼티 규약
+https://blueyikim.tistory.com/1999
+HTTP 헤더 + BODY
+https://bit.ly/34vGCpB
+: Header는 운영체제, 시간 등등 다양한 요구조건 관련 사항이 들어가있음.
+: BODY는 사실상 코드가 들어가는 부분! html태그가 들어있는 html태그 묶음이 브라우저에 뿌려지면 컴파일된 형태로 보여짐. json태그가 들어있는 코드라면 json 데이터가 그대로 출력
+<<관련된 질문
