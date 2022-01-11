@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 
 //@Repository
+//@Component
 public class MemoryMemberRepository implements MemberRepository{
 
     private static Map<Long,Member> store = new HashMap<>();    //인스턴스가 아닌 클래스레벨에 붙는거라
