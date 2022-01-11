@@ -32,7 +32,7 @@ https://www.youtube.com/user/MasterNKS/playlists
 도메인: 비즈니스 도메인 객체: 회원, 주문, 쿠폰.. DB 저장
 
 클래스 의존관계
-MemberService > interface(MemberRepository) <.. MemoryRepository
+MemberService > interface(MemberRepository) <.. MemoryRepository(implements)
 
 향후에 구체적인 것이 선정되는 것을 가정하여 인터페이스로 구현 클래스를 변경하도록 설계.
 RDB, NoSQL 등을 고민중인 상황
