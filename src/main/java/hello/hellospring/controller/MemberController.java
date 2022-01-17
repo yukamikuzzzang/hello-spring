@@ -1,6 +1,5 @@
 package hello.hellospring.controller;
 
-import hello.hellospring.controller.repository.MemberRepository;
 import hello.hellospring.domain.Member;
 import hello.hellospring.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;

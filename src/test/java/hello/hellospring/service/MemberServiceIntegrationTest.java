@@ -1,37 +1,34 @@
 package hello.hellospring.service;
 
-import hello.hellospring.repository.MemoryMemberRepository;
 import hello.hellospring.domain.Member;
+import hello.hellospring.repository.MemberRepository;
+import hello.hellospring.repository.MemoryMemberRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Commit;
+import org.springframework.transaction.annotation.Transactional;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 //import static org.assertj.core.api.Assertions.assertThat;
 
+@SpringBootTest
+//@Transactional
+class MemberServiceIntegrationTest {
 
-class MemberServiceTest {
-    MemberService memberService;
-    MemoryMemberRepository memoryMemberRepository;      //다른 리파지토리로 사용되는 것을 막기 위해..
-
-    @BeforeEach
-    public void beforeEach() {
-        memoryMemberRepository = new MemoryMemberRepository();
-        memberService = new MemberService(memoryMemberRepository);
-    }
-
-    @AfterEach
-    public void afterEach() {
-        memoryMemberRepository.clearStore();    //메모리를 클리어해줌.
-    }
+    @Autowired MemberService memberService;
+    @Autowired MemberRepository memberRepository;      //다른 리파지토리로 사용되는 것을 막기 위해..
 
     @Test
+    @Commit
     void 회원가입() {
         //given
         Member member = new Member();
-        member.setName("spring");
+        member.setName("spring!!");
         //when
         Long saveId = memberService.join(member);
         //then
@@ -47,7 +44,7 @@ class MemberServiceTest {
         member1.setName("spring");
 
         Member member2 = new Member();
-        member2.setName("spring");
+        member2.setName("spring!");
         //when
         memberService.join(member1);
         IllegalStateException e = assertThrows(IllegalStateException.class, () -> memberService.join(member2));
